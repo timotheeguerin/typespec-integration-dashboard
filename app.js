@@ -126,7 +126,10 @@ function renderDashboard() {
   const dashboard = document.getElementById('dashboard');
   dashboard.innerHTML = PIPELINES.map(p => `
     <div class="pipeline-card" id="card-${p.id}">
-      <h2><a href="${p.pipelineUrl}" target="_blank" rel="noopener">${p.name}</a></h2>
+      <div class="pipeline-header">
+        <h2><a href="${p.pipelineUrl}" target="_blank" rel="noopener">${p.name}</a></h2>
+        <span class="pipeline-badge unknown" id="badge-${p.id}">—</span>
+      </div>
       <div class="pipeline-source">${p.source}</div>
       <div class="runs-list"><span class="loading">Loading...</span></div>
     </div>
@@ -137,10 +140,19 @@ function renderRuns(pipelineId, runs) {
   const card = document.getElementById(`card-${pipelineId}`);
   if (!card) return;
   const container = card.querySelector('.runs-list');
+  const badge = document.getElementById(`badge-${pipelineId}`);
+
   if (runs.length === 0) {
     container.innerHTML = '<span class="loading">No runs found</span>';
     return;
   }
+
+  // Update card and badge based on latest run status
+  const latestStatus = runs[0].status;
+  card.className = `pipeline-card status-${latestStatus}`;
+  badge.className = `pipeline-badge ${latestStatus}`;
+  badge.textContent = statusLabel(latestStatus);
+
   container.innerHTML = runs.map(run => `
     <div class="run-row">
       <span class="run-status ${run.status}" title="${run.status}"></span>
@@ -149,6 +161,16 @@ function renderRuns(pipelineId, runs) {
       <span class="run-time">${formatTime(run.time)}</span>
     </div>
   `).join('');
+}
+
+function statusLabel(status) {
+  switch (status) {
+    case 'success': return '✓ Passing';
+    case 'failure': return '✗ Failing';
+    case 'pending': return '● Running';
+    case 'cancelled': return '○ Cancelled';
+    default: return '— Unknown';
+  }
 }
 
 function renderError(pipelineId, error) {
