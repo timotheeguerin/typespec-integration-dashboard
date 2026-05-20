@@ -70,8 +70,8 @@ function passRate(results: PipelineResult): string {
 
 function render(results: PipelineResult[]): void {
   const nameWidth = Math.max(...results.map((r) => r.pipeline.name.length)) + 2;
-  const rateWidth = 5; // "10/10"
-  const wordWidth = 9; // "cancelled"
+  const rateWidth = 5;
+  const wordWidth = 9;
   const separator = dim("─".repeat(nameWidth + rateWidth + wordWidth + 12));
 
   console.log("");

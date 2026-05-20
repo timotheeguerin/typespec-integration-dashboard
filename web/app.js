@@ -1,5 +1,5 @@
 // TypeSpec Integration Dashboard — Web UI
-import { PIPELINES } from "/shared/pipelines.js";
+import { PIPELINES, LANG_SVG } from "/shared/pipelines.js";
 import { fetchGitHubRuns, fetchADORuns } from "/shared/fetchers.js";
 
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
@@ -23,16 +23,23 @@ async function loadConfig() {
 
 function renderDashboard() {
   const dashboard = document.getElementById('dashboard');
-  dashboard.innerHTML = PIPELINES.map(p => `
+  dashboard.innerHTML = PIPELINES.map(p => {
+    const iconUrl = LANG_SVG[p.lang] || '';
+    const iconHtml = iconUrl ? `<img class="pipeline-lang-icon" src="${iconUrl}" alt="${p.lang}" />` : '';
+    return `
     <div class="pipeline-card" id="card-${p.id}">
       <div class="pipeline-header">
-        <h2><a href="${p.pipelineUrl}" target="_blank" rel="noopener">${p.name}</a></h2>
+        <div class="pipeline-title">
+          ${iconHtml}
+          <h2><a href="${p.pipelineUrl}" target="_blank" rel="noopener">${p.name}</a></h2>
+        </div>
         <span class="pipeline-badge unknown" id="badge-${p.id}">—</span>
       </div>
       <div class="pipeline-source">${p.source === "github" ? "GitHub Actions" : "Azure DevOps"}</div>
       <div class="runs-list"><span class="loading">Loading...</span></div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderRuns(pipelineId, runs) {
