@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeSpec Integration Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>TypeSpec Integration Dashboard</h1>
+        <div class="controls">
+            <button id="refresh-btn" onclick="refreshAll()">↻ Refresh</button>
+            <span id="countdown"></span>
+            <span id="last-updated"></span>
+        </div>
+    </header>
+    <main id="dashboard">
+        <!-- Pipeline cards rendered by JS -->
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
