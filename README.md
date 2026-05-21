@@ -38,14 +38,28 @@ Pipeline names are clickable hyperlinks in supported terminals (iTerm2, VS Code,
 | typespec-java nightly dev | Azure DevOps | Java |
 | Autorest Go Nightly | Azure DevOps | Go |
 
-## Setup
+## Quick Start
+
+```bash
+npx github:timotheeguerin/typespec-integration-dashboard
+```
+
+That's it. Requires `gh` CLI authenticated (`gh auth login`) and Node.js 20+.
+
+To open the web dashboard:
+
+```bash
+npx github:timotheeguerin/typespec-integration-dashboard --open
+```
+
+## Development Setup
 
 ```bash
 pnpm install
 pnpm run build
 ```
 
-## Usage
+## Usage (from source)
 
 ### CLI (terminal summary)
 
